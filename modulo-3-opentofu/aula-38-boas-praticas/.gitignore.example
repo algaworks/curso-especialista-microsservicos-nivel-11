@@ -1,0 +1,23 @@
+# .gitignore para projetos OpenTofu/Terraform
+# Adicione este arquivo ao raiz do projeto
+
+# Arquivos de estado locais
+*.tfstate
+*.tfstate.*
+.terraform.tfstate.lock.info
+
+# Diretório de inicialização do provider
+.terraform/
+.terraform.lock.hcl
+
+# Variáveis com dados sensíveis — NUNCA commitar!
+*.tfvars
+!*.tfvars.example
+
+# Arquivos de plano
+*.tfplan
+*.out
+
+# Chaves SSH
+*.pem
+*.key

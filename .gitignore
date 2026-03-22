@@ -1,0 +1,30 @@
+AlgaDelivery-Final
+build/
+.git
+
+# OpenTofu / Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+*.tfstate.*.backup
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Variáveis com dados sensíveis
+*.tfvars
+*.tfvars.json
+!*.example.tfvars
+
+# Arquivos de plano
+*.tfplan
+*.plan
+
+# Diretório de testes OpenTofu
+.terraform.test.hcl
