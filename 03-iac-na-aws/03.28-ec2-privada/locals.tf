@@ -1,4 +1,6 @@
 locals {
+  all_traffic_cidr = "0.0.0.0/0"
+
   common_tags = {
     Project     = var.project_name
     Environment = var.environment

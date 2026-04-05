@@ -10,7 +10,7 @@ Esta proposta unifica o conteúdo novo do Módulo 4 e redistribui tudo em **3 m�
 ---
 
 ## Módulo 03 — Infraestrutura como Código (IaC) na AWS
-> **~25 aulas** | Fases 0 a 5
+> **~29 aulas** | Fases 0 a 5
 
 ### Objetivo
 Sair do zero até ter uma VPC funcional com Bastion Host + EC2 privada acessível via SSH.
@@ -33,24 +33,29 @@ Sair do zero até ter uma VPC funcional com Bastion Host + EC2 privada acessíve
 | 12 | Backend remoto com S3 (locking nativo no OpenTofu 1.8+) |
 | 13 | Criando uma VPC |
 | 14 | Criando subnets públicas |
-| 15 | Criando Internet Gateway |
-| 16 | Criando subnets privadas |
-| 17 | Criando NAT Gateway |
-| 18 | Configurando Route tables |
-| 19 | Configurando associações das Route tables |
-| 20 | Refatoração com variáveis |
-| 21 | Criando Security Groups (Bastion + Private) |
-| 22 | Entendendo Data sources (AZs disponíveis + AMI Ubuntu) |
-| 23 | Criando EC2 Bastion |
-| 24 | Criando EC2 privada |
-| 25 | Teste SSH |
+| 15 | Conhecendo Built-in functions |
+| 16 | Criando Internet Gateway |
+| 17 | Criando subnets privadas |
+| 18 | Criando NAT Gateway |
+| 19 | Configurando Route tables |
+| 20 | Configurando associações das Route tables |
+| 21 | Utilizando for_each |
+| 22 | Utilizando count |
+| 23 | Utilizando conditionals |
+| 24 | Refatoração com variáveis |
+| 25 | Criando Security Groups (Bastion + Private) |
+| 26 | Entendendo Data sources (AZs disponíveis + AMI Ubuntu) |
+| 27 | Criando EC2 Bastion |
+| 28 | Criando EC2 privada |
+| 29 | Teste SSH |
+| 30 | Subnets dinâmicas |
 
 **Entrega concreta:** VPC completa + Bastion + EC2 privada testada via SSH.
 
 ---
 
 ## Módulo 04 — IaC Avançado: Módulos, Escala e Multi-ambiente
-> **~19 aulas** | Fases 6 a 10 + Projeto Final
+> **~15 aulas** | Fases 6 a 10 + Projeto Final
 
 ### Objetivo
 Transformar a infraestrutura básica em código production-grade: reutilizável, multi-ambiente e com práticas avançadas.
@@ -59,25 +64,21 @@ Transformar a infraestrutura básica em código production-grade: reutilizável,
 
 | # | Aula |
 |---|------|
-| 01 | for_each |
-| 02 | count vs for_each |
-| 03 | Conditionals |
-| 04 | Built-in functions |
-| 05 | Dynamic blocks |
-| 06 | Módulo VPC |
-| 07 | Inputs de módulos |
-| 08 | Módulo EC2 |
-| 09 | Reuso de módulos |
-| 10 | Multi-env (envs/dev + envs/prod) |
-| 11 | Workspaces |
-| 12 | Dados sensíveis |
-| 13 | Boas práticas |
-| 14 | Lifecycle |
-| 15 | Import |
-| 16 | State avançado |
-| 17 | Debugging |
-| 18 | Null resource |
-| 19 | Projeto: Infraestrutura modularizada e multi-ambiente do AlgaDelivery |
+| 01 | Utilizando Dynamic blocks |
+| 02 | Criando Módulo VPC |
+| 03 | Inputs de módulos |
+| 04 | Criando Módulo EC2 |
+| 05 | Reuso de módulos |
+| 06 | Multi-env (envs/dev + envs/prod) |
+| 07 | Workspaces |
+| 08 | Dados sensíveis |
+| 09 | Boas práticas |
+| 10 | Lifecycle |
+| 11 | Import |
+| 12 | State avançado |
+| 13 | Debugging |
+| 14 | Null resource |
+| 15 | Projeto: Infraestrutura modularizada e multi-ambiente do AlgaDelivery |
 
 **Entrega concreta:** VPC e EC2 via módulos reutilizáveis, security groups com dynamic blocks, variáveis sensíveis, deployment em `dev` e `prod` via workspaces, lifecycle `prevent_destroy` no Bastion, `null_resource` para validação pós-deploy e outputs de endpoints prontos para consumo no Módulo C via remote state.
 
@@ -115,8 +116,8 @@ Provisionar os serviços de dados do AlgaDelivery (banco, cache, mensageria) via
 
 | Módulo | Foco | Aulas |
 |--------|------|-------|
-| 03 — IaC na AWS | Zero → VPC + EC2 funcionando | ~26 |
-| 04 — IaC Avançado | Código production-grade + projeto final | ~19 |
+| 03 — IaC na AWS | Zero → VPC + EC2 funcionando | ~29 |
+| 04 — IaC Avançado | Código production-grade + projeto final | ~15 |
 | 05 — Serviços Gerenciados AWS com IaC | RDS + ElastiCache + MSK | ~13 |
 | **Total** | | **~57** |
 
