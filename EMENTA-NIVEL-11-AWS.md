@@ -77,7 +77,6 @@ Capacitar profissionais para implementar e gerenciar microserviços em produçã
 | 2.22. Acessando recursos privados com Bastion Host 
 | 2.23. Introdução ao DNS e Route 53 
 | 2.24. Configurando registros DNS básicos no Route 53 
-| 2.25. Flow Logs e monitoramento de tráfego
 
 
 ---

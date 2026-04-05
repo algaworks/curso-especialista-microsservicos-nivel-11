@@ -17,6 +17,7 @@ override.tf.json
 .terraformrc
 terraform.rc
 
+
 # Variáveis com dados sensíveis
 *.tfvars
 *.tfvars.json
