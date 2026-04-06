@@ -18,12 +18,3 @@ provider "aws" {
   # Ou via AWS CLI profile:
   # profile = "default"
 }
-
-resource "aws_s3_bucket" "algadelivery_tfstate" {
-  bucket = "algadelivery-tfstate"
-
-  tags = {
-    Name    = "algadelivery-tfstate"
-    Project = "algadelivery"
-  }
-}
