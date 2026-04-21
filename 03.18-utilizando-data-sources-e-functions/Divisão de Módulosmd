@@ -1,0 +1,115 @@
+# Sugestão de Divisão de Módulos — IaC na AWS
+
+## Contexto
+
+O módulo atual (Módulo 3) cobre fundamentos até projeto final em **44 aulas**.
+O Módulo 4 planejado inclui rede (já coberta) + RDS + ElastiCache + MSK — o que geraria sobreposição.
+
+Esta proposta unifica o conteúdo novo do Módulo 4 e redistribui tudo em **3 módulos coesos**, eliminando duplicação e mantendo tamanho equilibrado por módulo.
+
+---
+
+## Módulo 03 — Infraestrutura como Código (IaC) na AWS
+> **~29 aulas** | Fases 0 a 5
+
+### Objetivo
+Sair do zero até ter uma VPC funcional com Bastion Host + EC2 privada acessível via SSH.
+
+### Conteúdo
+
+| # | Aula |
+|---|------|
+| 01 | Introdução + IaC + Benefícios |
+| 02 | Terraform vs OpenTofu + Boas práticas |
+| 03 | Setup do ambiente (OpenTofu + AWS CLI) |
+| 04 | Provider AWS: autenticação e região |
+| 05 | Primeiro recurso (S3) |
+| 06 | Conhecendo os comandos básicos: plan / apply / destroy / fmt / validate |
+| 07 | Trabalhando com variáveis |
+| 08 | Gerando Outputs |
+| 09 | Utilizando locals para organização de dados |
+| 10 | Estrutura de arquivos |
+| 11 | Explorando o arquivo tfstate |
+| 12 | Backend remoto com S3 (locking nativo no OpenTofu 1.8+) |
+| 13 | Criando uma VPC |
+| 14 | Criando subnets públicas |
+| 15 | Conhecendo Built-in functions |
+| 16 | Criando Internet Gateway |
+| 17 | Criando subnets privadas |
+| 18 | Criando NAT Gateway |
+| 19 | Configurando Route tables |
+| 20 | Configurando associações das Route tables |
+| 21 | Utilizando for_each |
+| 22 | Utilizando count |
+| 23 | Utilizando conditionals |
+| 24 | Refatoração com variáveis |
+| 25 | Criando Security Groups (Bastion + Private) |
+| 26 | Entendendo Data sources (AZs disponíveis + AMI Ubuntu) |
+| 27 | Criando EC2 Bastion |
+| 28 | Criando EC2 privada |
+| 29 | Teste SSH |
+| 30 | Subnets dinâmicas |
+
+**Entrega concreta:** VPC completa + Bastion + EC2 privada testada via SSH.
+
+---
+
+## Módulo 04 — IaC Production-Grade + Serviços Gerenciados do AlgaDelivery
+> **~20 aulas** | IaC Avançado + RDS + ElastiCache + MSK
+
+### Objetivo
+Evoluir a infraestrutura básica para código reutilizável e multi-ambiente, depois provisionar todos os serviços de dados do AlgaDelivery (banco, cache, mensageria) via OpenTofu.
+
+---
+
+### Parte 1 — Módulos, Multi-ambiente e Práticas Avançadas (~9 aulas)
+
+| # | Aula |
+|---|------|
+| 01 | Utilizando Dynamic blocks |
+| 02 | Criando Módulo VPC |
+| 03 | Criando Módulo EC2 + Inputs de módulos |
+| 04 | Reuso de módulos |
+| 05 | Multi-env (envs/dev + envs/prod) |
+| 06 | Workspaces |
+| 07 | Dados sensíveis |
+| 08 | Lifecycle + Boas práticas |
+| 09 | Projeto: Infra de rede do AlgaDelivery modularizada |
+
+**Entrega da Parte 1:** VPC e EC2 via módulos reutilizáveis, security groups com dynamic blocks, variáveis sensíveis, deployment em `dev` e `prod` via workspaces e `lifecycle prevent_destroy` no Bastion.
+
+---
+
+### Parte 2 — Provisionando Serviços Gerenciados com IaC (~11 aulas)
+
+| # | Aula |
+|---|------|
+| 10 | Revisitando o desenho de infra e estimando custos com AWS Pricing Calculator |
+| 12 | Introdução ao RDS e parameter groups |
+| 13 | Provisionando RDS PostgreSQL via AWS Console |
+| 14 | Provisionando RDS PostgreSQL via OpenTofu |
+| 15 | Testando conexão ao RDS via Bastion Host |
+| 16 | Introdução ao ElastiCache Redis/Valkey |
+| 17 | Provisionando ElastiCache Valkey via Console e OpenTofu |
+| 18 | Introdução ao Amazon MSK (Kafka) |
+| 19 | Provisionando Amazon MSK via Console e OpenTofu |
+| 20 | Testando conectividade a todos os serviços via Bastion (RDS + Valkey + Kafka) |
+
+**Entrega da Parte 2:** RDS PostgreSQL + ElastiCache Valkey + Amazon MSK provisionados via código, acessíveis pelo Bastion e integrados à infra modularizada.
+
+---
+
+## Resumo
+
+| Módulo | Foco | Aulas |
+|--------|------|-------|
+| 03 — IaC na AWS | Zero → VPC + EC2 funcionando | ~30 |
+| 04 — IaC Production-Grade + Serviços Gerenciados | Módulos + Multi-env + RDS + ElastiCache + MSK | ~20 |
+| **Total** | | **~50** |
+
+### Por que essa divisão funciona
+
+- **Tamanho equilibrado**: 20–30 aulas por módulo — faixa saudável para retenção
+- **Fronteiras didáticas claras**: cada módulo e parte termina com uma entrega concreta e testável
+- **Progressão natural**: fundamentos → IaC production-grade → serviços do projeto real
+- **Tópicos cortados** (Import, State avançado, Debugging, Null resource): menos essenciais para o fluxo principal do AlgaDelivery — podem ser abordados como bônus ou em módulos futuros

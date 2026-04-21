@@ -1,0 +1,14 @@
+output "vpc_id" { value = aws_vpc.this.id }
+output "vpc_arn" { value = aws_vpc.this.arn }
+output "vpc_cidr_block" { value = aws_vpc.this.cidr_block }
+output "public_subnet_ids" { value = [for s in aws_subnet.public : s.id] }
+output "public_subnet_arns" { value = [for s in aws_subnet.public : s.arn] }
+output "private_management_subnet_ids" { value = [for s in aws_subnet.private_management : s.id] }
+output "private_management_subnet_arns" { value = [for s in aws_subnet.private_management : s.arn] }
+output "private_cluster_subnet_ids" { value = [for s in aws_subnet.private_cluster : s.id] }
+output "private_cluster_subnet_arns" { value = [for s in aws_subnet.private_cluster : s.arn] }
+output "igw_id" { value = aws_internet_gateway.this.id }
+output "igw_arn" { value = aws_internet_gateway.this.arn }
+output "ngw_id" { value = aws_nat_gateway.this.id }
+output "route_table_public_id" { value = aws_route_table.public.id }
+output "route_table_private_id" { value = aws_route_table.private.id }

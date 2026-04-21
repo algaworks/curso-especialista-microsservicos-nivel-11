@@ -1,0 +1,37 @@
+environment: development
+vpc_cidr_block: "172.25.0.0/16"
+vpc_name: algadelivery-vpc-dev
+instance_type: t3.micro
+
+subnet_pub_config:
+  public_a:
+    cidr_block: "172.25.1.0/24"
+    az: a
+  public_b:
+    cidr_block: "172.25.2.0/24"
+    az: b
+  public_c:
+    cidr_block: "172.25.3.0/24"
+    az: c
+
+subnet_pvt_management_config:
+  private_a:
+    cidr_block: "172.25.4.0/24"
+    az: a
+  private_b:
+    cidr_block: "172.25.5.0/24"
+    az: b
+  private_c:
+    cidr_block: "172.25.6.0/24"
+    az: c
+
+subnet_pvt_cluster_config:
+  private_a:
+    cidr_block: "172.25.7.0/24"
+    az: a
+  private_b:
+    cidr_block: "172.25.8.0/24"
+    az: b
+  private_c:
+    cidr_block: "172.25.9.0/24"
+    az: c
