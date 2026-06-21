@@ -30,3 +30,7 @@ terraform.rc
 # Diretório de testes OpenTofu
 .terraform.test.hcl
 **.pem
+.metodologia-ensino.md
+.mcp.json
+roteiros/
+.claude/
