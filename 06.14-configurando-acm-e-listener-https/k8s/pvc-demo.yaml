@@ -1,0 +1,32 @@
+# Mesmo manifesto da aula 5.14, no Kind. So o nome da StorageClass muda --
+# e nem precisaria, se a gp3 ja e a default do cluster.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dados-demo
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: gp3
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dados-demo
+  namespace: default
+spec:
+  containers:
+    - name: shell
+      image: busybox:1.36
+      command: ["sh", "-c", "echo gravado em $(date) >> /dados/registro.txt; sleep 3600"]
+      volumeMounts:
+        - name: dados
+          mountPath: /dados
+  volumes:
+    - name: dados
+      persistentVolumeClaim:
+        claimName: dados-demo

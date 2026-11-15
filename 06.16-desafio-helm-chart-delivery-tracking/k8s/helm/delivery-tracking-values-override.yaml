@@ -1,0 +1,15 @@
+# Override do chart do delivery-tracking para o lab. So o que muda por
+# ambiente; o resto vem do values.yaml do chart.
+
+image:
+  # Imagem publica do Docker Hub, multi-arch (amd64 para o EKS, arm64 para o Mac).
+  repository: algaworks/delivery-tracking
+  tag: "1.0.3"
+
+database:
+  # O padrao do chart (postgres-0.postgres:5432/deliverydb) ja aponta para o
+  # Postgres do chart da 6.09, instalado no mesmo namespace. So falta a senha:
+  # a MESMA do credential.password do chart do Postgres. Senha de lab.
+  password: dhsajkh81u82891
+
+# O ARN do certificado nao fica aqui: vem do "tofu output", no helm install.

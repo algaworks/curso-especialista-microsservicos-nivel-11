@@ -1,0 +1,33 @@
+# Roteamento por CAMINHO. Um unico ALB, um unico endereco, dois servicos.
+# O prefixo chega INTACTO na aplicacao: nao ha reescrita de caminho aqui.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: algashop-path
+  namespace: default
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    alb.ingress.kubernetes.io/healthcheck-path: /health
+    # Dois Ingress com o MESMO group.name viram UM ALB so.
+    alb.ingress.kubernetes.io/group.name: algashop
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - path: /hello
+            pathType: Prefix
+            backend:
+              service:
+                name: hellojava
+                port:
+                  number: 80
+          - path: /rastreio
+            pathType: Prefix
+            backend:
+              service:
+                name: rastreio
+                port:
+                  number: 80

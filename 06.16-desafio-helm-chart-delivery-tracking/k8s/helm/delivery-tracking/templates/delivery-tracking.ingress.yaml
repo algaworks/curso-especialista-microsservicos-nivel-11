@@ -1,0 +1,25 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  # Nome proprio, NAO "algadelivery": no ALB, quem junta os Ingress e o
+  # group.name. Reusar o nome de outro Ingress apagaria a regra dele.
+  name: delivery-tracking
+  labels:
+    app: delivery-tracking
+  annotations:
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: delivery-tracking
+                port:
+                  name: http
+{{- end }}

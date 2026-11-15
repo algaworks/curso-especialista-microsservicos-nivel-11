@@ -1,0 +1,19 @@
+replicaCount: 1
+
+image:
+  repository: algadelivery
+  tag: "v1.0.0"
+  pullPolicy: IfNotPresent
+
+port: 5432
+
+storage:
+  size: 2Gi
+  className: gp3
+  accessMode: ReadWriteOnce
+  path: /var/lib/postgresql/data
+
+credential:
+  username: postgres
+  password: dhsajkh81u82891
+  database: deliverydb

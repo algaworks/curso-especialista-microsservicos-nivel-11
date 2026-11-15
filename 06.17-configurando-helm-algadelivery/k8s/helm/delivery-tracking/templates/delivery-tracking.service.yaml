@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: delivery-tracking
+  labels:
+    app: delivery-tracking
+spec:
+  type: ClusterIP           # quem publica para fora e o Ingress (ALB)
+  selector:
+    app: delivery-tracking  # o Service nao conhece Pods: conhece LABELS
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: http      # o nome da porta do container, nao o numero

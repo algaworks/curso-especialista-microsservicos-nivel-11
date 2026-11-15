@@ -1,0 +1,12 @@
+# Override do chart do Postgres da aula 6.09 para subir o banco do
+# delivery-tracking no EKS.
+#
+# O values.yaml do chart aponta para image.repository "algadelivery", que nao
+# existe no Docker Hub (o Pod ficaria em ImagePullBackOff). Aqui vai a imagem
+# oficial, na mesma versao do appVersion do chart.
+image:
+  repository: postgres
+  tag: "17.5"
+
+# credential.password continua a do values.yaml do chart. O delivery-tracking
+# precisa da MESMA senha (delivery-tracking-values-override.yaml).

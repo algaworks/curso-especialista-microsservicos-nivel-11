@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: delivery-tracking-configmap
+  labels:
+    app: delivery-tracking
+data:
+  SERVER_PORT: {{ .Values.port | quote }}
+  {{- range $key, $value := .Values.config }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}

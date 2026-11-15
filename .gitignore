@@ -22,6 +22,8 @@ terraform.rc
 *.tfvars
 *.tfvars.json
 !*.example.tfvars
+# Modulo 6: dev.tfvars e prod.tfvars ficam fora do Git; o modelo versionado e o example.tfvars
+!example.tfvars
 
 # Arquivos de plano
 *.tfplan
@@ -30,10 +32,9 @@ terraform.rc
 # Diretório de testes OpenTofu
 .terraform.test.hcl
 **.pem
-.metodologia-ensino.md
-roteiros/
 .claude
 # Gradle / NetBeans (caches locais — já vazaram token uma vez)
 **/.gradle/
 **/build/
 .nb-gradle/
+roteiros/

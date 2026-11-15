@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: delivery-tracking
+  labels:
+    app: delivery-tracking
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: delivery-tracking
+  template:
+    metadata:
+      labels:
+        app: delivery-tracking      # e ESTA label que o selector do Service procura (5.07)
+      annotations:
+        # Mudou o ConfigMap ou o Secret? O hash muda, o Pod template muda e o
+        # Deployment faz rollout. Sem isso, os Pods seguiriam com o valor antigo.
+        checksum/config: {{ include (print $.Template.BasePath "/delivery-tracking.configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/delivery-tracking.secret.yaml") . | sha256sum }}
+    spec:
+      containers:
+      - name: delivery-tracking
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+          - name: http      # porta nomeada: probes e Service apontam para o NOME
+            containerPort: {{ .Values.port }}
+        env:
+          - name: JAVA_TOOL_OPTIONS
+            value: {{ .Values.javaToolOptions | quote }}
+        envFrom:
+          - configMapRef:
+              name: delivery-tracking-configmap
+          - secretRef:
+              name: delivery-tracking-secret
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+        startupProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: http
+          periodSeconds: 5
+          failureThreshold: 30        # ate 150s de boot — Spring Boot + JPA sobe nisso
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: http
+          periodSeconds: 10
+          failureThreshold: 3         # 30s de tolerancia depois de pronto
+          timeoutSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: http
+          periodSeconds: 5
+          failureThreshold: 2         # sai do rodizio em 10s
+          timeoutSeconds: 2

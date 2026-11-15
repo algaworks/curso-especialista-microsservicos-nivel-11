@@ -1,0 +1,9 @@
+apiVersion: v2
+name: delivery-tracking
+description: Helm chart do delivery-tracking, o primeiro microsservico do AlgaDelivery
+type: application
+# Versao do CHART. Mudou um template? Suba esta versao: e por ela que o
+# helm_release percebe que o chart local mudou.
+version: 1.0.0
+# Versao da APLICACAO empacotada (informativa; a imagem vem de image.tag).
+appVersion: "1.0.3"

@@ -1,0 +1,63 @@
+# Valores padrao do chart. O OpenTofu (algadelivery_deploy.tofu) sobrescreve o
+# que depende da infra: imagem, banco, host e certificado.
+
+image:
+  repository: algaworks/delivery-tracking   # Docker Hub: <organizacao>/<repositorio>
+  tag: "1.0.3"
+  pullPolicy: IfNotPresent
+
+# Porta do container. Aparece num lugar so: o ConfigMap (SERVER_PORT), o
+# containerPort e o targetPort do Service saem daqui.
+port: 8080
+
+# Com o HPA ligado, o Deployment nasce SEM o campo replicas: quem decide e o HPA.
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 80   # % do requests.cpu, nao do node
+
+# So vale com autoscaling.enabled = false.
+replicaCount: 2
+
+javaToolOptions: "-XX:MaxRAMPercentage=75.0"   # ~25% do container fora do heap
+
+resources:
+  requests:
+    cpu: 250m          # base do calculo do HPA
+    memory: 512Mi
+  limits:
+    cpu: 1000m         # teto folgado, para picos nao virarem latencia
+    memory: 512Mi      # igual ao request: sem surpresa de OOM
+
+# Configuracao NAO sensivel: vira o ConfigMap, uma chave por variavel de ambiente.
+config:
+  EUREKA_CLIENT_ENABLED: "false"     # no Kubernetes, o Service ja e o registry
+  # O Kafka fica fora desta aula. Sem isto, o KafkaAdmin tenta criar o topico
+  # no boot e fica tentando conectar em localhost:9092.
+  SPRING_KAFKA_ADMIN_AUTOCREATE: "false"
+
+# Vira o Secret. O padrao aponta para o Postgres do chart da 6.09 (release no
+# mesmo namespace). A senha NAO tem padrao: passe no install (6.16) ou deixe o
+# OpenTofu injetar a do RDS com set_sensitive (6.17).
+database:
+  url: jdbc:postgresql://postgres-0.postgres:5432/deliverydb
+  username: postgres
+  password: ""
+
+service:
+  port: 80
+
+ingress:
+  enabled: true
+  className: alb
+  host: delivery-tracking.dev.algadelivery.com.br
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    # Mesmo group.name dos outros Ingress: todos no MESMO ALB.
+    alb.ingress.kubernetes.io/group.name: algadelivery
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+    alb.ingress.kubernetes.io/healthcheck-path: /actuator/health/readiness
+    # alb.ingress.kubernetes.io/certificate-arn: vem do OpenTofu (module.acm)

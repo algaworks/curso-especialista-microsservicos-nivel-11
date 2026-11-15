@@ -1,0 +1,29 @@
+# Roteamento por HOST. Um DNS por servico -- e como aplicacao real e publicada.
+# Repare que o caminho e "/" nos dois: sem prefixo, sem pegadinha.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: algadelivery-host
+  namespace: default
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /health
+    alb.ingress.kubernetes.io/group.name: algadelivery
+    # Adicionando listener HTTPS e certificado ACM
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:870769090724:certificate/25349108-6350-4c41-99a8-7d6771ea7f6e
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+spec:
+  ingressClassName: alb
+  rules:
+    - host: hellojava.dev.algadelivery.com.br
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: hellojava
+                port:
+                  number: 80
